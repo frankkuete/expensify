@@ -8,7 +8,7 @@ CREATE TYPE "public"."TransactionType" AS ENUM ('income', 'expense');
 CREATE TABLE "public"."User" (
     "id" UUID NOT NULL,
     "email" TEXT NOT NULL,
-    "clerkId" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "name" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -86,9 +86,6 @@ CREATE TABLE "public"."TransactionCategory" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_clerkId_key" ON "public"."User"("clerkId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AssetCategory_name_key" ON "public"."AssetCategory"("name");
