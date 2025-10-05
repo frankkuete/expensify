@@ -1,55 +1,36 @@
--- Enable UUID extension if not already enabled
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- CreateEnum
 CREATE TYPE "public"."AssetType" AS ENUM ('real_estate', 'stock', 'bond', 'etf', 'cash', 'custom');
 
 -- CreateEnum
 CREATE TYPE "public"."TransactionType" AS ENUM ('income', 'expense');
 
--- DropForeignKey
-ALTER TABLE "public"."Asset" DROP CONSTRAINT "Asset_userId_fkey";
+-- CreateTable
+CREATE TABLE "public"."User" (
+    "id" UUID NOT NULL,
+    "email" TEXT NOT NULL,
+    "name" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."Budget" DROP CONSTRAINT "Budget_userId_fkey";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."Expense" DROP CONSTRAINT "Expense_userId_fkey";
+-- CreateTable
+CREATE TABLE "public"."Asset" (
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "type" "public"."AssetType" NOT NULL,
+    "description" TEXT,
+    "value" DECIMAL(18,2) NOT NULL,
+    "currency" VARCHAR(10) NOT NULL DEFAULT 'USD',
+    "categoryId" UUID NOT NULL,
+    "subcategoryId" UUID,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."Income" DROP CONSTRAINT "Income_userId_fkey";
-
--- AlterTable
-ALTER TABLE "public"."Asset" DROP CONSTRAINT "Asset_pkey",
-DROP COLUMN "category",
-DROP COLUMN "purchaseDate",
-ADD COLUMN     "categoryId" UUID NOT NULL,
-ADD COLUMN     "currency" VARCHAR(10) NOT NULL DEFAULT 'USD',
-ADD COLUMN     "description" TEXT,
-ADD COLUMN     "subcategoryId" UUID,
-ADD COLUMN     "type" "public"."AssetType" NOT NULL,
-DROP COLUMN "id",
-ADD COLUMN     "id" UUID NOT NULL,
-ALTER COLUMN "name" SET DATA TYPE VARCHAR(255),
-ALTER COLUMN "value" SET DATA TYPE DECIMAL(18,2),
-DROP COLUMN "userId",
-ADD COLUMN     "userId" UUID NOT NULL,
-ADD CONSTRAINT "Asset_pkey" PRIMARY KEY ("id");
-
--- AlterTable
-ALTER TABLE "public"."User" DROP CONSTRAINT "User_pkey",
-DROP COLUMN "id",
-ADD COLUMN     "id" UUID NOT NULL,
-ADD CONSTRAINT "User_pkey" PRIMARY KEY ("id");
-
--- DropTable
-DROP TABLE "public"."Budget";
-
--- DropTable
-DROP TABLE "public"."Expense";
-
--- DropTable
-DROP TABLE "public"."Income";
+    CONSTRAINT "Asset_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "public"."AssetCategory" (
@@ -101,6 +82,9 @@ CREATE TABLE "public"."TransactionCategory" (
 
     CONSTRAINT "TransactionCategory_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AssetCategory_name_key" ON "public"."AssetCategory"("name");
