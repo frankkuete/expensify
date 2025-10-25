@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client';
 import { clerkMiddleware, clerkClient, requireAuth, getAuth } from '@clerk/express'
 import assetsRoutes from './routes/assets';
 import { requireAuthMiddleware } from "./middlewares/authMiddleware";
+import specs from './config/swagger';
+import swaggerUi from 'swagger-ui-express';
 
 
 dotenv.config();
@@ -16,6 +18,7 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Log all incoming requests
 app.use((req, res, next) => {
@@ -31,8 +34,7 @@ app.get('/api/health', (req, res) => {
 });
 
 
-// Use requireAuth() to protect this route
-// If user isn't authenticated, requireAuth() will redirect back to the homepage
+// Use requireAuth() to protect this route If user isn't authenticated, requireAuth() will redirect back to the homepage
 app.get('/api/logged_user', requireAuth(), async (req, res) => {
   // Use `getAuth()` to get the user's `userId`
   const { userId } = getAuth(req)

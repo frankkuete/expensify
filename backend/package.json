@@ -25,6 +25,8 @@
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "prisma": "^6.13.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
     "zod": "^4.1.8"
@@ -32,6 +34,8 @@
   "devDependencies": {
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "base64-arraybuffer": "^1.0.2",
     "nodemon": "^3.1.10"
   }

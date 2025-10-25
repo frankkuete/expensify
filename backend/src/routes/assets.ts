@@ -16,7 +16,218 @@ const upload = multer({ storage: storage });
 const prisma = new PrismaClient();
 const router = Router();
 
-// ✅ Créer un asset immobilier
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Asset:
+ *       type: object
+ *       required:
+ *         - name
+ *         - type
+ *         - value
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID auto-généré de l'asset
+ *         name:
+ *           type: string
+ *           description: Nom de l'asset
+ *         type:
+ *           type: string
+ *           enum: [REAL_ESTATE, VEHICLE, JEWELRY, ART, STOCK, CRYPTO, OTHER]
+ *           description: Type d'asset
+ *         description:
+ *           type: string
+ *           description: Description de l'asset
+ *         value:
+ *           type: number
+ *           description: Valeur totale de l'asset
+ *         currency:
+ *           type: string
+ *           default: USD
+ *           description: Devise de l'asset
+ *         quantity:
+ *           type: number
+ *           default: 1
+ *           description: Quantité de l'asset
+ *         unitValue:
+ *           type: number
+ *           description: Valeur unitaire de l'asset
+ *         clerkId:
+ *           type: string
+ *           description: ID de l'utilisateur propriétaire
+ */
+
+/**
+ * @swagger
+ * /api/assets:
+ *   post:
+ *     summary: Créer un nouvel asset
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Asset'
+ *     responses:
+ *       201:
+ *         description: Asset créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Asset'
+ *       400:
+ *         description: Données invalides
+ *       401:
+ *         description: Non authentifié
+ *
+ *   get:
+ *     summary: Récupérer tous les assets de l'utilisateur
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste des assets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Asset'
+ *       401:
+ *         description: Non authentifié
+ */
+
+/**
+ * @swagger
+ * /api/assets/{id}:
+ *   put:
+ *     summary: Mettre à jour un asset
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Asset'
+ *     responses:
+ *       200:
+ *         description: Asset mis à jour avec succès
+ *       403:
+ *         description: Accès interdit
+ *       404:
+ *         description: Asset non trouvé
+ *
+ *   delete:
+ *     summary: Supprimer un asset
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Asset supprimé avec succès
+ *       403:
+ *         description: Accès interdit
+ *       404:
+ *         description: Asset non trouvé
+ */
+
+/**
+ * @swagger
+ * /api/assets/{id}/documents:
+ *   post:
+ *     summary: Upload un document pour un asset
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Document uploadé avec succès
+ *       400:
+ *         description: Fichier manquant
+ *       403:
+ *         description: Accès interdit
+ */
+
+/**
+ * @swagger
+ * /api/assets:
+ *   post:
+ *     summary: Créer un nouvel asset
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Asset'
+ *     responses:
+ *       201:
+ *         description: Asset créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Asset'
+ *       400:
+ *         description: Données invalides
+ *       401:
+ *         description: Non authentifié
+ *
+ *   get:
+ *     summary: Récupérer tous les assets de l'utilisateur
+ *     tags: [Assets]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste des assets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Asset'
+ *       401:
+ *         description: Non authentifié
+ */
 router.post("/", requireAuthMiddleware, async (req: Request, res: Response) => {
   try {
     const { name, type, description, value, currency, quantity, unitValue} = req.body;
