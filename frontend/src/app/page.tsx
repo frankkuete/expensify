@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { ArrowRight, BarChart2, Building2, Shield } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -34,17 +35,20 @@ export default function Home() {
               Expensify vous aide à suivre et gérer tous vos actifs immobiliers, financiers et plus encore.
             </p>
             <div className="space-x-4">
-              <SignUpButton mode="modal">
-                <Button>
-                  Commencer gratuitement
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </SignUpButton>
-              <SignInButton mode="modal">
-                <Button variant="outline">
+                <Link
+                  href="/sign-in"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white hover:bg-primary-dark"
+                >
+                  Commencez gratuitement
+                </Link>
+
+                {/* "Se connecter" -> redirige vers sign-in */}
+                <Link
+                  href="/sign-in"
+                  className="inline-flex items-center justify-center rounded-md border border-gray-200 px-4 py-2 hover:bg-gray-50"
+                >
                   Se connecter
-                </Button>
-              </SignInButton>
+                </Link>
             </div>
           </div>
         </div>
@@ -84,14 +88,14 @@ export default function Home() {
               Prêt à mieux gérer vos actifs ?
             </h2>
             <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-              Rejoignez des milliers d'utilisateurs qui font confiance à Expensify pour la gestion de leurs actifs.
+              Rejoignez des milliers d&apos;utilisateurs qui font confiance à Expensify pour la gestion de leurs actifs.
             </p>
-            <SignUpButton mode="modal">
-              <Button size="lg">
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center justify-center rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+              >
                 Créer un compte gratuit
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </SignUpButton>
+              </Link>
           </div>
         </div>
       </section>
