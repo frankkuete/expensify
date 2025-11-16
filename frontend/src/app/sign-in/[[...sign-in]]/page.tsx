@@ -10,7 +10,7 @@ export default function Page() {
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
         className="mx-auto h-10 w-auto"
       />
-      <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">Sign in to your account</h2>
+      <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">Sign in to your account</h2>
     </div>
 
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
