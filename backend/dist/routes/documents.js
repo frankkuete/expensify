@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { DocumentController } from '../controllers/document.controller';
-import { requireAuthMiddleware } from '../middlewares/authMiddleware';
-import { upload } from '../middlewares/uploadMiddleware';
-
-const router = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const document_controller_1 = require("../controllers/document.controller");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const uploadMiddleware_1 = require("../middlewares/uploadMiddleware");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * components:
@@ -51,7 +51,6 @@ const router = Router();
  *           description: The timestamp when the document was last updated
  *           example: "2024-02-26T14:30:00Z"
  */
-
 /**
  * @swagger
  * /api/documents/{assetType}/{objectId}:
@@ -95,8 +94,7 @@ const router = Router();
  *       404:
  *         description: Asset not found
  */
-router.post('/:assetType/:objectId', requireAuthMiddleware, upload.single('file'), DocumentController.upload);
-
+router.post('/:assetType/:objectId', authMiddleware_1.requireAuthMiddleware, uploadMiddleware_1.upload.single('file'), document_controller_1.DocumentController.upload);
 /**
  * @swagger
  * /api/documents/{assetType}/{objectId}:
@@ -130,8 +128,7 @@ router.post('/:assetType/:objectId', requireAuthMiddleware, upload.single('file'
  *       404:
  *         description: Asset not found
  */
-router.get('/:assetType/:objectId', requireAuthMiddleware, DocumentController.getDocuments);
-
+router.get('/:assetType/:objectId', authMiddleware_1.requireAuthMiddleware, document_controller_1.DocumentController.getDocuments);
 /**
  * @swagger
  * /api/documents/{documentId}:
@@ -166,6 +163,5 @@ router.get('/:assetType/:objectId', requireAuthMiddleware, DocumentController.ge
  *       500:
  *         description: Server error
  */
-router.delete('/:documentId', requireAuthMiddleware, DocumentController.delete);
-
-export default router;
+router.delete('/:documentId', authMiddleware_1.requireAuthMiddleware, document_controller_1.DocumentController.delete);
+exports.default = router;

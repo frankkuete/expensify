@@ -1,36 +1,18 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
+import Link from "next/link";
+import { Building2 } from "lucide-react";
 
-export default async function DashboardPage() {
-  const { userId } = await auth();
-  // Si pas connecté → on redirige vers la page de login
-  if (!userId) {
-    redirect("/sign-in");
-  }
+export default function DashboardPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-      <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton>
-                <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-      </header>
-      <h1 className="text-3xl font-bold mb-4">Bienvenue sur le Dashboard</h1>
-      <p>Ton userId : {userId}</p>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <Link href="/dashboard/real-estate" className="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border border-gray-100 group">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="p-3 bg-blue-100 rounded-full text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <Building2 className="h-6 w-6" />
+          </div>
+          <h2 className="text-xl font-semibold">Real Estate</h2>
+        </div>
+        <p className="text-gray-500">Manage your properties, track values using different currencies.</p>
+      </Link>
     </div>
-  )
+  );
 }

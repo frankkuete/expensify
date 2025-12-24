@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { RealEstateController } from '../controllers/realEstate.controller';
-import { requireAuthMiddleware } from '../middlewares/authMiddleware';
-
-const router = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const realEstate_controller_1 = require("../controllers/realEstate.controller");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * components:
@@ -65,7 +65,6 @@ const router = Router();
  *           type: boolean
  *           example: true
  */
-
 /**
  * @swagger
  * /api/real-estate:
@@ -92,8 +91,7 @@ const router = Router();
  *       401:
  *         description: Unauthorized
  */
-router.post('/', requireAuthMiddleware, RealEstateController.create);
-
+router.post('/', authMiddleware_1.requireAuthMiddleware, realEstate_controller_1.RealEstateController.create);
 /**
  * @swagger
  * /api/real-estate:
@@ -114,8 +112,7 @@ router.post('/', requireAuthMiddleware, RealEstateController.create);
  *       401:
  *         description: Unauthorized
  */
-router.get('/', requireAuthMiddleware, RealEstateController.getAll);
-
+router.get('/', authMiddleware_1.requireAuthMiddleware, realEstate_controller_1.RealEstateController.getAll);
 /**
  * @swagger
  * /api/real-estate/{id}:
@@ -141,8 +138,7 @@ router.get('/', requireAuthMiddleware, RealEstateController.getAll);
  *       404:
  *         description: Property not found
  */
-router.get('/:id', requireAuthMiddleware, RealEstateController.getById);
-
+router.get('/:id', authMiddleware_1.requireAuthMiddleware, realEstate_controller_1.RealEstateController.getById);
 /**
  * @swagger
  * /api/real-estate/{id}:
@@ -170,8 +166,7 @@ router.get('/:id', requireAuthMiddleware, RealEstateController.getById);
  *       404:
  *         description: Property not found
  */
-router.put('/:id', requireAuthMiddleware, RealEstateController.update);
-
+router.put('/:id', authMiddleware_1.requireAuthMiddleware, realEstate_controller_1.RealEstateController.update);
 /**
  * @swagger
  * /api/real-estate/{id}:
@@ -222,6 +217,5 @@ router.put('/:id', requireAuthMiddleware, RealEstateController.update);
  *                   type: string
  *                   example: "Failed to delete asset and its documents"
  */
-router.delete('/:id', requireAuthMiddleware, RealEstateController.delete);
-
-export default router;
+router.delete('/:id', authMiddleware_1.requireAuthMiddleware, realEstate_controller_1.RealEstateController.delete);
+exports.default = router;

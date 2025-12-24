@@ -74,7 +74,7 @@ enum PropertyType {
 
 model Transaction {
   id              String              @id @default(uuid()) @db.Uuid
-  userId          String              @db.Uuid
+  clerkId         String
   type            TransactionType
   amount          Decimal             @db.Decimal(18, 2)
   currency        String              @default("USD") @db.VarChar(10)
