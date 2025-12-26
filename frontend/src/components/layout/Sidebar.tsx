@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Building2, FileText, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Building2, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@clerk/nextjs";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Real Estate", href: "/dashboard/real-estate", icon: Building2 },
-    { name: "Documents", href: "/dashboard/documents", icon: FileText },
     { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 

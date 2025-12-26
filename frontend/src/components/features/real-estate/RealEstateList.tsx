@@ -1,15 +1,18 @@
 "use client";
 
 import { RealEstate } from "@/types/realEstate";
+import { Pencil, Trash2, FileText } from "lucide-react";
 
 interface RealEstateListProps {
     properties: RealEstate[];
     loading: boolean;
     error: string | null;
+    onEdit: (property: RealEstate) => void;
     onDelete: (id: string) => Promise<void>;
+    onShowDocuments: (property: RealEstate) => void;
 }
 
-export default function RealEstateList({ properties, loading, error, onDelete }: RealEstateListProps) {
+export default function RealEstateList({ properties, loading, error, onEdit, onDelete, onShowDocuments }: RealEstateListProps) {
 
     if (loading) return <div>Loading real estate assets...</div>;
     if (error) return <div className="text-red-500">Error: {error}</div>;
@@ -28,14 +31,34 @@ export default function RealEstateList({ properties, loading, error, onDelete }:
                             <p className="font-bold mt-2">
                                 {new Intl.NumberFormat('en-US', { style: 'currency', currency: property.currency }).format(property.value)}
                             </p>
-                            <div className="mt-4 flex justify-between">
+                            <div className="mt-4 flex justify-between items-center">
                                 <span className="text-xs bg-gray-100 px-2 py-1 rounded">{property.propertyType}</span>
-                                <button
-                                    onClick={() => onDelete(property.id)}
-                                    className="text-red-500 text-sm hover:underline"
-                                >
-                                    Delete
-                                </button>
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={() => onShowDocuments(property)}
+                                        className="text-gray-600 hover:text-gray-800 transition flex items-center gap-1"
+                                        title="View documents"
+                                    >
+                                        <FileText className="h-4 w-4" />
+                                        <span className="text-sm">Docs</span>
+                                    </button>
+                                    <button
+                                        onClick={() => onEdit(property)}
+                                        className="text-blue-600 hover:text-blue-800 transition flex items-center gap-1"
+                                        title="Edit property"
+                                    >
+                                        <Pencil className="h-4 w-4" />
+                                        <span className="text-sm">Edit</span>
+                                    </button>
+                                    <button
+                                        onClick={() => onDelete(property.id)}
+                                        className="text-red-500 hover:text-red-700 transition flex items-center gap-1"
+                                        title="Delete property"
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                        <span className="text-sm">Delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

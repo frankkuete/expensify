@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { realEstateService } from '@/services/realEstateService';
-import { RealEstate, CreateRealEstateInput } from '@/types/realEstate';
+import { RealEstate, CreateRealEstateInput, UpdateRealEstateInput } from '@/types/realEstate';
 import { setAuthToken } from '@/lib/api';
 
 export const useRealEstate = () => {
@@ -48,6 +48,19 @@ export const useRealEstate = () => {
         }
     };
 
+    const updateProperty = async (id: string, data: UpdateRealEstateInput) => {
+        try {
+            const token = await getToken();
+            setAuthToken(token);
+            const updatedProperty = await realEstateService.update(id, data);
+            setProperties(prev => prev.map(p => p.id === id ? updatedProperty : p));
+            return updatedProperty;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    };
+
     const deleteProperty = async (id: string) => {
         try {
             const token = await getToken();
@@ -66,6 +79,7 @@ export const useRealEstate = () => {
         error,
         refetch: fetchProperties,
         addProperty,
+        updateProperty,
         deleteProperty
     };
 };

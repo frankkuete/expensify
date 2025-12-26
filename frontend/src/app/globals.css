@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: false;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,6 +120,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
