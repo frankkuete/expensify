@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { PropertyType, CreateRealEstateInput, RealEstate, UpdateRealEstateInput } from "@/types/realEstate";
 import { DollarSign, Euro, PoundSterling, Loader2 } from "lucide-react";
+import axios, { isAxiosError } from "axios";
 
 interface RealEstateFormProps {
     existingProperty?: RealEstate;
@@ -112,15 +113,19 @@ export default function RealEstateForm({ existingProperty, onAdd, onUpdate }: Re
                     hasGarden: false
                 });
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            const backendError = err.response?.data?.error;
-            if (Array.isArray(backendError)) {
-                // Handle Zod issues array
-                const messages = backendError.map((issue: any) => issue.message).join(", ");
-                setError(`Validation error: ${messages}`);
-            } else if (typeof backendError === 'string') {
-                setError(backendError);
+            if (isAxiosError(err)) {
+                const backendError = err.response?.data?.error;
+                if (Array.isArray(backendError)) {
+                    // Handle Zod issues array
+                    const messages = backendError.map((issue: { message: string }) => issue.message).join(", ");
+                    setError(`Validation error: ${messages}`);
+                } else if (typeof backendError === 'string') {
+                    setError(backendError);
+                } else {
+                    setError(isEditMode ? "Failed to update property" : "Failed to create property");
+                }
             } else {
                 setError(isEditMode ? "Failed to update property" : "Failed to create property");
             }
